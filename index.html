@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script async defer src="https://cdnjs.cloudflare.com/ajax/libs/d3/5.5.0/d3.js"></script>
+  <script async defer src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+  <script async defer src="./plotly.js"></script>
+  <title>Bellybutton Biodiversity</title>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" />
+</head>
+
+<body class="text-center" style="background-color: green;">
+  <div class="text-center" style="margin: 0 auto; text-align: center; align-items: center;">
+    <div class="row text-center" >
+      <div class="jumbotron text-center">
+        <h1>Belly Biome Bulletin</h1>
+        <p>Use the charts below and alliteration to make people uncomfortable!</p>
+      </div>
+    </div>
+    <div 
+    class="text-center" 
+    style="margin: 0 auto; text-align: center; align-items: center;" >
+      <div 
+      class="row text-center" 
+      style="display: flex; flex-direction: row; justify-content: center;"
+      > 
+        <div class="well">
+          <h5>Test Cases:</h5>
+          <select id="caseDropdown"></select>
+        </div>
+
+        <div class="panel panel-primary">
+          <div class="panel-heading">
+            <h3 class="panel-title">Test Case Demographics</h3>
+          </div>
+          <div id="sample-metadata" class="panel-body"></div>
+        </div>
+      </div>
+      </div>
+
+      <div class="row text-center"
+      style="margin: 0 auto; text-align: center;
+      display: flex; flex-direction: row; justify-content: center;
+      "
+      >
+
+          <div id="gaugeChart"
+
+          ></div>
+          <div id="barChart"></div>
+
+      </div>
+      <br/>
+      <div class="row"
+      style="margin: 0 auto; text-align: center; align-items: center;"
+      >
+
+          <div id="bubbleChart"></div>
+
+      </div>
+    </div>
+
+
+</body>
+
+</html>
