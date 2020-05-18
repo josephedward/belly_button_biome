@@ -1,7 +1,9 @@
 var sampleCases;
 
-function init() {
-  d3.json("samples.json").then(data => {
+
+
+async function init() {
+  await d3.json("samples.json").then(data => {
     sampleCases = data;
     var selectValues = data.names;
     var dropdownSelect = d3.select("#caseDropdown");
@@ -15,25 +17,60 @@ function init() {
         });
     });
   });
+
+
+  $('#caseDropdown > option').each(function(i,v){
+    // $(this).change()
+    // $(x).selected = true;
+    // d3.selectAll("#caseDropdown").on("change", createGraphs);
+
+     setTimeout(async function(){
+      // console.log($(v).text())
+      // setDelay(i+1000)
+      $(v).val(i)
+      // .change()
+      // .trigger("change")
+      .attr('selected', 'selected');
+
+
+      var valueSelect = $(v).text()
+      // await d3.select("#caseDropdown").node().value;
+      loadDemographics(valueSelect);
+      panelPlot(valueSelect);
+      bubbleChart(valueSelect);
+      gaugeChart(valueSelect);
+    
+      // clearTimeout;
+    }, 5000+(i*5000))
+    // // $(this).val(i)
+  })
+
+
+
+// To space out your code correctly, keep adding to the timeout time rather than replacing it.
+
+
+
+
+
 }
 
 init();
 
 
-d3.selectAll("#caseDropdown").on("change", createGraphs);
 
-function createGraphs() {
-  var valueSelect = d3.select("#caseDropdown").node().value;
-  loadDemographics(valueSelect);
-  panelPlot(valueSelect);
-  bubbleChart(valueSelect);
-  gaugeChart(valueSelect);
+async function createGraphs() {
+  var valueSelect = await d3.select("#caseDropdown").node().value;
+  await loadDemographics(valueSelect);
+  await panelPlot(valueSelect);
+  await bubbleChart(valueSelect);
+  await gaugeChart(valueSelect);
 }
 
-function loadDemographics(valueSelect) {
-  var filterValue2 = sampleCases.samples.filter(value => value.id == valueSelect);
-  var presentOTUs = filterValue2.map(x => x.otu_ids);
-  presentOTUs = createOtuIds(presentOTUs[0].slice(0, 10));
+async function loadDemographics(valueSelect) {
+  var filterValue2 = await sampleCases.samples.filter(value => value.id == valueSelect);
+  var presentOTUs = await filterValue2.map(x => x.otu_ids);
+  presentOTUs =  await createOtuIds(presentOTUs[0].slice(0, 10));
   var valueX = filterValue2.map(x => x.sample_values);
   valueX = valueX[0].slice(0, 10);
 
@@ -56,14 +93,9 @@ function loadDemographics(valueSelect) {
     }
   };
 
-
   var sampleCaseArr = [trace];
-
   Plotly.newPlot("barChart", sampleCaseArr, layout);
 }
-
-
-
 
 
 function getBacteria(name) {
@@ -81,7 +113,7 @@ function getBacteria(name) {
   return listOfBact;
 }
 
-function createOtuIds(name) {
+async function createOtuIds(name) {
   var listOfPresentOTUs = [];
   for (var i = 0; i < name.length; i++) {
     listOfPresentOTUs.push(`OTU ${name[i]}`);
@@ -93,7 +125,7 @@ function createOtuIds(name) {
 
 
 
-function panelPlot(valueSelect) {
+async function panelPlot(valueSelect) {
   var filterValue = sampleCases.metadata.filter(value => value.id == valueSelect);
   var divValue = d3.select(".panel-body");
   divValue.html("");
@@ -107,7 +139,7 @@ function panelPlot(valueSelect) {
 }
 
 
-function bubbleChart(valueSelect) {
+async function bubbleChart(valueSelect) {
   var filterValue3 = sampleCases.samples.filter(value => value.id == valueSelect);
   var presentOTUs = filterValue3.map(x => x.otu_ids);
   presentOTUs = presentOTUs[0];
@@ -127,12 +159,13 @@ function bubbleChart(valueSelect) {
   };
   var sampleCaseArr2 = [trace1];
   var layout = {
+    title:"Bacterial Distribution",
     showlegend: false,
     xaxis: {
       title: "OTU ID"
     },
     yaxis: {
-      title: "Sample Cases"
+      title: "Sample Count"
     }
   };
 
@@ -140,7 +173,7 @@ function bubbleChart(valueSelect) {
 }
 
 
-function gaugeChart(valueSelect) {
+async function gaugeChart(valueSelect) {
   var filterValue = sampleCases.metadata.filter(value => value.id == valueSelect);
   var weeklyFreq = filterValue[0].wfreq;
 
