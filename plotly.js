@@ -1,7 +1,5 @@
 var sampleCases;
 
-
-
 async function init() {
   await d3.json("samples.json").then(data => {
     sampleCases = data;
@@ -19,39 +17,17 @@ async function init() {
   });
 
 
-  $('#caseDropdown > option').each(function(i,v){
-    // $(this).change()
-    // $(x).selected = true;
-    // d3.selectAll("#caseDropdown").on("change", createGraphs);
-
+  $('#caseDropdown > option').each(function(i,v){    
      setTimeout(async function(){
-      // console.log($(v).text())
-      // setDelay(i+1000)
       $(v).val(i)
-      // .change()
-      // .trigger("change")
       .attr('selected', 'selected');
-
-
       var valueSelect = $(v).text()
-      // await d3.select("#caseDropdown").node().value;
       loadDemographics(valueSelect);
       panelPlot(valueSelect);
       bubbleChart(valueSelect);
       gaugeChart(valueSelect);
-    
-      // clearTimeout;
     }, 5000+(i*5000))
-    // // $(this).val(i)
   })
-
-
-
-// To space out your code correctly, keep adding to the timeout time rather than replacing it.
-
-
-
-
 
 }
 
@@ -138,7 +114,6 @@ async function panelPlot(valueSelect) {
   divValue.append("p").text(`wfreq: ${filterValue[0].wfreq}`);
 }
 
-
 async function bubbleChart(valueSelect) {
   var filterValue3 = sampleCases.samples.filter(value => value.id == valueSelect);
   var presentOTUs = filterValue3.map(x => x.otu_ids);
@@ -197,24 +172,23 @@ async function gaugeChart(valueSelect) {
 
       steps: [{
           range: [0, 1],
-          color:"#5D673E"
-
+          color: "#4d6600"
         },
         {
           range: [1, 2],
-          color:"#797B4C" 
+          color:"#5D673E" 
         },
         {
           range: [2, 3],
-          color: "#A28B67" 
+          color: "#797B4C" 
         },
         {
           range: [3, 4],
-          color: "#AF917A"
+          color:"#669966"          
         },
         {
           range: [4, 5],
-          color: "#BC998E"
+          color: "teal"
         },
         {
           range: [5, 6],
